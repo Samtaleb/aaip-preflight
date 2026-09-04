@@ -3,330 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Preflight | AAIP Business & Immigration Portal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>AAIP Immigration Portal - Secure Triage & Archives</title>
+    <!-- Supabase JavaScript Client SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #3b82f6;
+            --background: #f8fafc;
+            --text: #1e293b;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        h1 { margin: 0; font-size: 24px; color: var(--primary); }
+        .partner-badge {
+            background: #eff6ff;
+            color: var(--secondary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+        th {
+            background-color: #f1f5f9;
+            color: #475569;
+        }
+        button.action-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        button.action-btn:hover {
+            background-color: #2563eb;
+        }
+        .status-msg {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #64748b;
+        }
+    </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col">
+<body>
 
-    <header class="border-b border-slate-800 bg-slate-900/60 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="bg-indigo-600 text-white p-2 rounded-lg font-bold text-lg"><i class="fa-solid fa-plane-departure"></i></div>
-                <div>
-                    <h1 class="font-bold text-lg tracking-tight">Preflight <span class="text-indigo-400 text-xs px-2 py-0.5 bg-indigo-950 border border-indigo-800 rounded-full">AAIP Engine</span></h1>
-                </div>
-            </div>
-            <div class="text-sm text-slate-400 flex items-center space-x-4">
-                <span><i class="fa-solid fa-shield-halved text-emerald-400 mr-1.5"></i>Secure Portal</span>
-                <span class="bg-slate-800 px-3 py-1 rounded-md text-slate-200">Alberta, Canada</span>
-            </div>
+    <header>
+        <div>
+            <h1>AAIP Immigration Portal</h1>
+            <span class="status-msg">Secure Triage & Document Management System</span>
         </div>
+        <div class="partner-badge">Firm Partners: Amgad | Hossam | Ahmad</div>
     </header>
 
-    <main class="flex-grow max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8 w-full">
+    <div class="card">
+        <h3>Finalized Proposal Archives</h3>
+        <p style="font-size: 14px; color: #64748b;">Access cryptographically verified client proposal packages securely via time-limited signed URLs.</p>
         
-        <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
-            <div>
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-xl font-semibold flex items-center"><i class="fa-solid fa-user-check text-indigo-400 mr-2.5"></i>Client Intake & Triage</h2>
-                    <span class="text-xs bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2.5 py-1 rounded-full font-medium">Live Feed</span>
-                </div>
-                
-                <form id="intakeForm" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Investor Full Name</label>
-                        <input type="text" id="investorName" value="Ahmed Al-Mansoor" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:border-indigo-500">
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Currency</label>
-                            <select id="currency" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-3 text-slate-200 focus:outline-none focus:border-indigo-500">
-                                <option value="CAD">CAD ($)</option>
-                                <option value="USD">USD ($)</option>
-                                <option value="AED">AED (د.إ)</option>
-                                <option value="SAR">SAR (ر.س)</option>
-                                <option value="TRY">TRY (₺)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Net Worth</label>
-                            <input type="number" id="netWorth" value="1000000" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:border-indigo-500">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Management Role & Experience</label>
-                        <div class="grid grid-cols-2 gap-2 mb-2">
-                            <select id="roleType" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-slate-200">
-                                <option value="owner">Business Owner</option>
-                                <option value="manager">Senior Manager</option>
-                                <option value="both">Both Owner & Manager</option>
-                            </select>
-                            <select id="experienceYears" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-3 text-xs text-slate-200">
-                                <option value="5">5 to 9 Years (Max Pts)</option>
-                                <option value="10">10+ Years</option>
-                                <option value="3">3 to 4 Years</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Intended Investment Capital</label>
-                        <input type="number" id="budget" value="200000" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:border-indigo-500">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">CV / Resume Option</label>
-                        <input type="file" id="cvFile" class="w-full text-xs text-slate-400 file:mr-2 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 bg-slate-950 border border-slate-800 rounded-xl p-1">
-                    </div>
-                </form>
-            </div>
-
-            <div class="mt-6 pt-6 border-t border-slate-800">
-                <button type="button" onclick="runAnalysis()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3.5 px-4 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/20 flex items-center justify-center space-x-2">
-                    <span>Generate Feasibility & Match Plan</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </div>
-        </section>
-
-        <section class="lg:col-span-2 space-y-6">
-            
-            <div id="resultsCard" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl hidden space-y-6">
-                <div class="flex items-center justify-between pb-4 border-b border-slate-800">
-                    <div>
-                        <h3 class="text-lg font-bold text-emerald-400 flex items-center"><i class="fa-solid fa-circle-check mr-2"></i>Analysis Complete & Logged</h3>
-                        <p class="text-xs text-slate-400" id="convertedNetWorthText">Converted to CAD successfully.</p>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <button onclick="exportReportsToCSV()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2 px-3 rounded-lg shadow flex items-center transition">
-                            <i class="fa-solid fa-file-excel mr-1.5"></i>Export CSV
+        <table>
+            <thead>
+                <tr>
+                    <th>Archive ID / Client</th>
+                    <th>Document Type</th>
+                    <th>Uploaded By</th>
+                    <th>Date Logged</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="archives-table-body">
+                <!-- Dynamic rows will load here or can be hardcoded for testing -->
+                <tr>
+                    <td><code>Sample-Client-UUID</code></td>
+                    <td>Investor Proposal Package (PDF)</td>
+                    <td>Ahmad</td>
+                    <td>2026-09-04</td>
+                    <td>
+                        <!-- Replace with your actual database record UUID when testing -->
+                        <button class="action-btn" onclick="openProposalDocument('YOUR_ARCHIVE_UUID_HERE')">
+                            View Secure Document
                         </button>
-                        <div class="text-right">
-                            <span class="text-2xl font-black text-indigo-400" id="feasibilityScore">96%</span>
-                            <p class="text-[10px] text-slate-400 uppercase tracking-wider">Match Index</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-3"><i class="fa-solid fa-store mr-2 text-indigo-400"></i>Recommended Businesses (Click Card for A-Z Scratch Breakdown)</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="communityMatches"></div>
-                </div>
-
-                <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 space-y-3">
-                    <h4 class="text-sm font-semibold text-indigo-300 uppercase tracking-wider"><i class="fa-solid fa-wallet mr-2"></i>Monthly Settlement & Living Cost Ledger (Alberta Rural)</h4>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs text-slate-300">
-                        <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
-                            <span class="font-bold text-slate-100 block mb-0.5">Housing (Rent/Mortgage)</span>
-                            $1,600 – $2,200 / mo
-                        </div>
-                        <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
-                            <span class="font-bold text-slate-100 block mb-0.5">Utilities & Fiber Internet</span>
-                            $250 – $350 / mo
-                        </div>
-                        <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
-                            <span class="font-bold text-slate-100 block mb-0.5">Vehicle Lease & Insurance</span>
-                            $650 – $900 / mo
-                        </div>
-                        <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
-                            <span class="font-bold text-slate-100 block mb-0.5">Groceries & Banking</span>
-                            $850 – $30 / mo
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 space-y-3">
-                    <div class="flex items-center justify-between">
-                        <h4 class="text-sm font-semibold text-indigo-300 uppercase tracking-wider"><i class="fa-solid fa-file-signature mr-2"></i>Legal Representation Mandate Letter</h4>
-                        <button onclick="downloadMandatePDF()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold py-2 px-3 rounded-lg shadow"><i class="fa-solid fa-download mr-1.5"></i>Download / Print PDF</button>
-                    </div>
-                    <div id="mandateText" class="text-xs text-slate-400 leading-relaxed bg-slate-900 p-4 rounded-lg border border-slate-800">
-                        I hereby formally appoint and retain Mr. Ahmad, Canadian Legal/Immigration Representative, to act as my authorized agent and legal representative for all matters related to my AAIP application and business establishment in Alberta, Canada.
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
-                <h3 class="text-lg font-semibold mb-4 flex items-center"><i class="fa-solid fa-calculator text-indigo-400 mr-2.5"></i>Government & Program Financial Structure</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
-                        <span class="text-xs text-slate-400 block mb-1">Min. Business Investment</span>
-                        <span class="text-xl font-bold text-slate-100">$100,000 CAD</span>
-                    </div>
-                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
-                        <span class="text-xs text-slate-400 block mb-1">Govt & Evaluation Fees</span>
-                        <span class="text-xl font-bold text-slate-100">~$8,700 CAD</span>
-                    </div>
-                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
-                        <span class="text-xs text-slate-400 block mb-1">Alberta Corporate Tax</span>
-                        <span class="text-xl font-bold text-emerald-400">8% Flat Rate</span>
-                    </div>
-                </div>
-            </div>
-
-        </section>
-
-    </main>
-
-    <!-- Business Detail Modal -->
-    <div id="bizModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
-            <h3 id="modalTitle" class="text-lg font-bold text-indigo-400">Business Setup from Scratch</h3>
-            <div id="modalContent" class="text-xs text-slate-300 space-y-3 max-h-[70vh] overflow-y-auto pr-2"></div>
-        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <script>
-        const SUPABASE_URL = "https://nyrzzrkmqsjmwuraxzvd.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_CesVmIwUQ8L5olAUaaczTw_GUUdk_Xr";
+        // Initialize Supabase Client (Replace with your project credentials)
+        const SUPABASE_URL = 'YOUR_SUPABASE_PROJECT_URL';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        function convertToCAD(amount, currency) {
-            const rates = { CAD: 1.0, USD: 1.38, AED: 0.375, SAR: 0.368, TRY: 0.040 };
-            return amount * (rates[currency] || 1.0);
-        }
-
-        async function runAnalysis() {
-            const name = document.getElementById('investorName').value;
-            const currency = document.getElementById('currency').value;
-            const rawNetWorth = parseFloat(document.getElementById('netWorth').value);
-            const rawBudget = parseFloat(document.getElementById('budget').value);
-            const card = document.getElementById('resultsCard');
-            const container = document.getElementById('communityMatches');
-
-            const netWorthCAD = convertToCAD(rawNetWorth, currency);
-            const budgetCAD = convertToCAD(rawBudget, currency);
-
-            if (netWorthCAD < 300000) {
-                alert("Minimum household net worth must equal at least $300,000 CAD under AAIP guidelines.");
-                return;
-            }
-
-            document.getElementById('convertedNetWorthText').innerText = `Converted: ${rawNetWorth.toLocaleString()} ${currency} = $${netWorthCAD.toLocaleString()} CAD`;
-
-            const matchedCommunity = "Westlock & Rocky Mountain House";
-            const reportData = { investor_name: name, net_worth: netWorthCAD, budget: budgetCAD, matched_community: matchedCommunity };
-
+        /**
+         * Securely fetches the file path from proposal_archives and opens a time-limited signed URL
+         * @param {string} archiveId - The UUID of the proposal archive record
+         */
+        async function openProposalDocument(archiveId) {
             try {
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/investor_reports`, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json', 
-                        'apikey': SUPABASE_KEY, 
-                        'Authorization': `Bearer ${SUPABASE_KEY}`, 
-                        'Prefer': 'return=minimal' 
-                    },
-                    body: JSON.stringify(reportData)
-                });
-                
-                if (!response.ok) {
-                    const errDetails = await response.text();
-                    console.error('Supabase write failed:', errDetails);
-                }
-            } catch (err) {
-                console.error('Network error:', err);
-            }
+                // 1. Fetch the private storage file path from your proposal_archives table
+                const { data: record, error: dbError } = await supabase
+                    .from('proposal_archives')
+                    .select('file_path')
+                    .eq('archive_id', archiveId)
+                    .single();
 
-            card.classList.remove('hidden');
-
-            const matches = [
-                { 
-                    name: "Westlock Essential Retail", 
-                    dist: "85 km North of Edmonton", 
-                    biz: "Specialty Hardware & Appliance Hub", 
-                    cost: "$120,000 CAD", 
-                    scratch: "1. Lease Negotiation: Secure commercial lease on Main Street ($2,500/mo).\n2. Licensing: Municipal business license & Alberta Corporate Registry.\n3. Inventory Setup: Initial stocking of tools & hardware ($50,000).\n4. Staffing: Hire 1 full-time local clerk to fulfill job creation metrics.\n5. Operations: Launch POS system, connect high-speed fiber internet, and open RBC commercial banking accounts."
-                },
-                { 
-                    name: "Rocky Mountain House Tourism", 
-                    dist: "210 km North of Calgary", 
-                    biz: "Outdoor Equipment & Adventure Outfitter", 
-                    cost: "$180,000 CAD", 
-                    scratch: "1. Asset Acquisition: Acquire existing storefront lease and touring gear assets.\n2. Permits: Provincial tourism permits and municipal zoning clearance.\n3. Fleet Setup: Secure pre-owned utility vehicles through regional dealer network.\n4. Banking & Accounting: Establish CIBC corporate accounts and retain local CPA.\n5. Marketing: Launch digital booking portal and partner with regional hotels."
-                }
-            ];
-
-            let html = '';
-            matches.forEach((m) => {
-                html += `
-                    <div onclick='openModal(${JSON.stringify(m)})' class="bg-slate-950 border border-slate-800 p-4 rounded-xl flex flex-col justify-between space-y-2 cursor-pointer hover:border-indigo-500 transition">
-                        <div>
-                            <div class="flex justify-between items-start">
-                                <span class="font-bold text-slate-200 text-sm">${m.name}</span>
-                                <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full">View A-Z Breakdown</span>
-                            </div>
-                            <p class="text-xs text-slate-400 mt-0.5">${m.dist}</p>
-                            <p class="text-xs text-indigo-300 mt-2 font-medium"><i class="fa-solid fa-briefcase mr-1"></i>${m.biz}</p>
-                        </div>
-                        <div class="flex justify-between items-center pt-2 border-t border-slate-900 text-xs">
-                            <span class="text-slate-400">Total Capital:</span>
-                            <span class="font-bold text-slate-100">${m.cost}</span>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        async function exportReportsToCSV() {
-            try {
-                const res = await fetch(`${SUPABASE_URL}/rest/v1/investor_reports?select=*`, {
-                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-                });
-                const data = await res.json();
-                if (!data || data.length === 0) {
-                    alert('No investor reports found in the database yet.');
+                if (dbError || !record) {
+                    console.error("Database lookup failed:", dbError?.message);
+                    alert("Proposal document record not found.");
                     return;
                 }
-                
-                let csv = 'ID,Investor Name,Net Worth (CAD),Budget (CAD),Matched Community,Created At\n';
-                data.forEach(row => {
-                    csv += `${row.id},"${row.investor_name || ''}",${row.net_worth || 0},${row.budget || 0},"${row.matched_community || ''}","${row.created_at || ''}"\n`;
-                });
-                
-                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.setAttribute('href', url);
-                a.setAttribute('download', 'AAIP_Investor_Reports.csv');
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
+
+                // 2. Generate a cryptographically signed URL valid for 10 minutes (600 seconds)
+                const { data, error: storageError } = await supabase.storage
+                    .from('proposals')
+                    .createSignedUrl(record.file_path, 600);
+
+                if (storageError) {
+                    console.error("Storage error:", storageError.message);
+                    alert("Failed to generate secure viewing link.");
+                    return;
+                }
+
+                // 3. Open the temporary secure link in a new browser tab
+                window.open(data.signedUrl, '_blank');
+
             } catch (err) {
-                console.error('Export error:', err);
-                alert('Failed to export investor reports.');
+                console.error("Unexpected error during document retrieval:", err);
+                alert("An error occurred while opening the document.");
             }
-        }
-
-        function openModal(biz) {
-            document.getElementById('modalTitle').innerText = biz.name + " (" + biz.biz + ")";
-            const formattedSteps = biz.scratch.split('\n').map(step => `<p class="bg-slate-950 p-3 rounded-lg border border-slate-800">${step}</p>`).join('');
-            document.getElementById('modalContent').innerHTML = formattedSteps;
-            document.getElementById('bizModal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('bizModal').classList.add('hidden');
-        }
-
-        function downloadMandatePDF() {
-            const printContent = document.getElementById('mandateText').innerText;
-            const originalBody = document.body.innerHTML;
-            document.body.innerHTML = `
-                <div style="font-family: Arial; padding: 40px; color: #000;">
-                    <h2 style="border-bottom: 2px solid #333; padding-bottom: 10px;">AAIP Legal Representation Mandate Letter</h2>
-                    <p style="margin-top: 20px; font-size: 14px; line-height: 1.6;">${printContent}</p>
-                    <br><br><br>
-                    <p>Client Signature: _______________________ &nbsp;&nbsp;&nbsp;&nbsp; Date: _______________</p>
-                    <p>Representative Signature (Ahmad): _______________________ &nbsp;&nbsp;&nbsp;&nbsp; Date: _______________</p>
-                </div>
-            `;
-            window.print();
-            document.body.innerHTML = originalBody;
-            window.location.reload();
         }
     </script>
 </body>
