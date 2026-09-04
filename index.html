@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AAIP Immigration Portal - Secure Triage & Archives</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --primary: #1e3a8a;
@@ -93,7 +92,7 @@
         <div class="card">
             <h3>Finalized Proposal Archives</h3>
             <p style="font-size: 14px; color: #64748b; margin-top: 4px;">
-                Access cryptographically verified client proposal packages securely via time-limited signed URLs.
+                Access client proposal packages securely.
             </p>
             <table>
                 <thead>
@@ -111,7 +110,7 @@
                         <td>Ahmad</td>
                         <td>
                             <button class="btn" onclick="openProposalDocument('YOUR_ARCHIVE_UUID_HERE')">
-                                View Secure Document
+                                View Document
                             </button>
                         </td>
                     </tr>
@@ -119,52 +118,5 @@
             </table>
         </div>
     </div>
-
-    <script>
-        // Initialize Supabase Client (Replace with your actual project credentials)
-        const SUPABASE_URL = 'YOUR_SUPABASE_PROJECT_URL';
-        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-        
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        /**
-         * Securely fetches the file path from proposal_archives and opens a time-limited signed URL
-         * @param {string} archiveId - The UUID of the proposal archive record
-         */
-        async function openProposalDocument(archiveId) {
-            try {
-                // 1. Fetch the private storage file path from your proposal_archives table
-                const { data: record, error: dbError } = await supabase
-                    .from('proposal_archives')
-                    .select('file_path')
-                    .eq('archive_id', archiveId)
-                    .single();
-
-                if (dbError || !record) {
-                    console.error("Database lookup failed:", dbError?.message);
-                    alert("Proposal document record not found.");
-                    return;
-                }
-
-                // 2. Generate a cryptographically signed URL valid for 10 minutes (600 seconds)
-                const { data, error: storageError } = await supabase.storage
-                    .from('proposals')
-                    .createSignedUrl(record.file_path, 600);
-
-                if (storageError) {
-                    console.error("Storage error:", storageError.message);
-                    alert("Failed to generate secure viewing link.");
-                    return;
-                }
-
-                // 3. Open the temporary secure link in a new browser tab
-                window.open(data.signedUrl, '_blank');
-
-            } catch (err) {
-                console.error("Unexpected error during document retrieval:", err);
-                alert("An error occurred while opening the document.");
-            }
-        }
-    </script>
 </body>
 </html>
