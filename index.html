@@ -4,53 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AAIP Immigration Portal - Secure Triage & Archives</title>
-    <!-- Supabase JavaScript Client SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --primary: #1e3a8a;
-            --secondary: #3b82f6;
-            --background: #f8fafc;
+            --secondary: #2563eb;
+            --bg: #f8fafc;
             --text: #1e293b;
             --border: #e2e8f0;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--background);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
             color: var(--text);
             margin: 0;
-            padding: 20px;
+            padding: 24px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
         header {
             background: white;
-            padding: 20px;
+            padding: 20px 24px;
             border-radius: 8px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 24px;
         }
-        h1 { margin: 0; font-size: 24px; color: var(--primary); }
-        .partner-badge {
+        h1 { margin: 0; font-size: 22px; color: var(--primary); }
+        .partners {
             background: #eff6ff;
             color: var(--secondary);
             padding: 6px 12px;
             border-radius: 20px;
+            font-size: 13px;
             font-weight: 600;
-            font-size: 14px;
         }
         .card {
             background: white;
-            padding: 20px;
+            padding: 24px;
             border-radius: 8px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-top: 16px;
         }
         th, td {
             text-align: left;
@@ -61,71 +63,65 @@
         th {
             background-color: #f1f5f9;
             color: #475569;
+            font-weight: 600;
         }
-        button.action-btn {
+        .btn {
             background-color: var(--secondary);
             color: white;
             border: none;
             padding: 8px 14px;
             border-radius: 4px;
             cursor: pointer;
-            font-weight: 500;
-            transition: background 0.2s;
-        }
-        button.action-btn:hover {
-            background-color: #2563eb;
-        }
-        .status-msg {
-            margin-top: 10px;
             font-size: 13px;
-            color: #64748b;
+            font-weight: 500;
+        }
+        .btn:hover {
+            background-color: #1d4ed8;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>AAIP Immigration Portal</h1>
+                <span style="font-size: 13px; color: #64748b;">Secure Triage & Document Management System</span>
+            </div>
+            <div class="partners">Partners: Amgad | Hossam | Ahmad</div>
+        </header>
 
-    <header>
-        <div>
-            <h1>AAIP Immigration Portal</h1>
-            <span class="status-msg">Secure Triage & Document Management System</span>
+        <div class="card">
+            <h3>Finalized Proposal Archives</h3>
+            <p style="font-size: 14px; color: #64748b; margin-top: 4px;">
+                Access cryptographically verified client proposal packages securely via time-limited signed URLs.
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Archive ID / Reference</th>
+                        <th>Document Type</th>
+                        <th>Uploaded By</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="archives-table-body">
+                    <tr>
+                        <td><code>YOUR_ARCHIVE_UUID_HERE</code></td>
+                        <td>Investor Proposal Package (PDF)</td>
+                        <td>Ahmad</td>
+                        <td>
+                            <button class="btn" onclick="openProposalDocument('YOUR_ARCHIVE_UUID_HERE')">
+                                View Secure Document
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="partner-badge">Firm Partners: Amgad | Hossam | Ahmad</div>
-    </header>
-
-    <div class="card">
-        <h3>Finalized Proposal Archives</h3>
-        <p style="font-size: 14px; color: #64748b;">Access cryptographically verified client proposal packages securely via time-limited signed URLs.</p>
-        
-        <table>
-            <thead>
-                <tr>
-                    <th>Archive ID / Client</th>
-                    <th>Document Type</th>
-                    <th>Uploaded By</th>
-                    <th>Date Logged</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="archives-table-body">
-                <!-- Dynamic rows will load here or can be hardcoded for testing -->
-                <tr>
-                    <td><code>Sample-Client-UUID</code></td>
-                    <td>Investor Proposal Package (PDF)</td>
-                    <td>Ahmad</td>
-                    <td>2026-09-04</td>
-                    <td>
-                        <!-- Replace with your actual database record UUID when testing -->
-                        <button class="action-btn" onclick="openProposalDocument('YOUR_ARCHIVE_UUID_HERE')">
-                            View Secure Document
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
     </div>
 
     <script>
-        // Initialize Supabase Client (Replace with your project credentials)
+        // Initialize Supabase Client (Replace with your actual project credentials)
         const SUPABASE_URL = 'YOUR_SUPABASE_PROJECT_URL';
         const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
         
