@@ -64,7 +64,7 @@
                                 <option value="manager">Senior Manager</option>
                                 <option value="both">Both Owner & Manager</option>
                             </select>
-                            <select id="experienceYears" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-slate-200">
+                            <select id="experienceYears" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-3 text-xs text-slate-200">
                                 <option value="5">5 to 9 Years (Max Pts)</option>
                                 <option value="10">10+ Years</option>
                                 <option value="3">3 to 4 Years</option>
@@ -76,17 +76,12 @@
                         <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Intended Investment Capital</label>
                         <input type="number" id="budget" value="200000" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:border-indigo-500">
                     </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">CV / Resume Option</label>
-                        <input type="file" id="cvFile" class="w-full text-xs text-slate-400 file:mr-2 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 bg-slate-950 border border-slate-800 rounded-xl p-1">
-                    </div>
                 </form>
             </div>
 
             <div class="mt-6 pt-6 border-t border-slate-800">
                 <button type="button" onclick="runAnalysis()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3.5 px-4 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/20 flex items-center justify-center space-x-2">
-                    <span>Generate Complete Feasibility & Settlement Plan</span>
+                    <span>Generate Feasibility & Match Plan</span>
                     <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </div>
@@ -107,33 +102,40 @@
                 </div>
 
                 <div>
-                    <h4 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-3"><i class="fa-solid fa-store mr-2 text-indigo-400"></i>Recommended Community & A-Z Business Breakdown</h4>
+                    <h4 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-3"><i class="fa-solid fa-store mr-2 text-indigo-400"></i>Recommended Businesses (Click Card for A-Z Scratch Breakdown)</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="communityMatches"></div>
                 </div>
 
                 <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 space-y-3">
-                    <h4 class="text-sm font-semibold text-indigo-300 uppercase tracking-wider"><i class="fa-solid fa-house-laptop mr-2"></i>Canada Soft-Landing & Infrastructure Guide</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-slate-300">
+                    <h4 class="text-sm font-semibold text-indigo-300 uppercase tracking-wider"><i class="fa-solid fa-wallet mr-2"></i>Monthly Settlement & Living Cost Ledger (Alberta Rural)</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs text-slate-300">
                         <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
-                            <span class="font-bold text-slate-100 block mb-1">Housing & Hubs</span>
-                            Westlock / Rocky Mountain House residential units. Proximity to Edmonton/Calgary major medical & educational centers.
+                            <span class="font-bold text-slate-100 block mb-0.5">Housing (Rent/Mortgage)</span>
+                            $1,600 – $2,200 / mo
                         </div>
                         <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
-                            <span class="font-bold text-slate-100 block mb-1">Utilities & Auto</span>
-                            High-speed fiber via Telus/Rogers. Dealership connections for immediate pre-owned family SUV/truck acquisition.
+                            <span class="font-bold text-slate-100 block mb-0.5">Utilities & Fiber Internet</span>
+                            $250 – $350 / mo
                         </div>
                         <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
-                            <span class="font-bold text-slate-100 block mb-1">Banking & Setup</span>
-                            Corporate & personal accounts via RBC, BMO, or CIBC. Local furnishing logistics fully supported.
+                            <span class="font-bold text-slate-100 block mb-0.5">Vehicle Lease & Insurance</span>
+                            $650 – $900 / mo
+                        </div>
+                        <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
+                            <span class="font-bold text-slate-100 block mb-0.5">Groceries & Banking</span>
+                            $850 – $30 / mo
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 space-y-2">
-                    <h4 class="text-sm font-semibold text-indigo-300 uppercase tracking-wider"><i class="fa-solid fa-file-signature mr-2"></i>Legal Representation Mandate</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        "I hereby formally appoint and retain Mr. Ahmad, Canadian Legal/Immigration Representative, to act as my authorized agent for all matters related to my AAIP application and business establishment in Alberta, Canada."
-                    </p>
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-sm font-semibold text-indigo-300 uppercase tracking-wider"><i class="fa-solid fa-file-signature mr-2"></i>Legal Representation Mandate Letter</h4>
+                        <button onclick="downloadMandatePDF()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold py-2 px-3 rounded-lg shadow"><i class="fa-solid fa-download mr-1.5"></i>Download / Print PDF</button>
+                    </div>
+                    <div id="mandateText" class="text-xs text-slate-400 leading-relaxed bg-slate-900 p-4 rounded-lg border border-slate-800">
+                        I hereby formally appoint and retain Mr. Ahmad, Canadian Legal/Immigration Representative, to act as my authorized agent and legal representative for all matters related to my AAIP application and business establishment in Alberta, Canada.
+                    </div>
                 </div>
             </div>
 
@@ -158,6 +160,15 @@
         </section>
 
     </main>
+
+    <!-- Business Detail Modal -->
+    <div id="bizModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+            <h3 id="modalTitle" class="text-lg font-bold text-indigo-400">Business Setup from Scratch</h3>
+            <div id="modalContent" class="text-xs text-slate-300 space-y-3 max-h-[70vh] overflow-y-auto pr-2"></div>
+        </div>
+    </div>
 
     <script>
         const SUPABASE_URL = "https://nyrzzrkmqsjmwuraxzvd.supabase.co";
@@ -186,7 +197,7 @@
 
             document.getElementById('convertedNetWorthText').innerText = `Converted: ${rawNetWorth.toLocaleString()} ${currency} = $${netWorthCAD.toLocaleString()} CAD`;
 
-            const matchedCommunity = "Westlock (Essential Retail & Services)";
+            const matchedCommunity = "Westlock & Rocky Mountain House";
             const reportData = { investor_name: name, net_worth: netWorthCAD, budget: budgetCAD, matched_community: matchedCommunity };
 
             try {
@@ -202,22 +213,33 @@
             card.classList.remove('hidden');
 
             const matches = [
-                { name: "Westlock", dist: "85 km North of Edmonton", biz: "Essential Retail & Automotive", cost: "$120,000 CAD", details: "Leasehold: $40k | Inventory: $50k | Working Capital: $30k | Ops: Full training provided." },
-                { name: "Rocky Mountain House", dist: "210 km North of Calgary", biz: "Tourism & Commercial Services", cost: "$180,000 CAD", details: "Leasehold: $60k | Equipment: $70k | Working Capital: $50k | High seasonal tourist traffic." }
+                { 
+                    name: "Westlock Essential Retail", 
+                    dist: "85 km North of Edmonton", 
+                    biz: "Specialty Hardware & Appliance Hub", 
+                    cost: "$120,000 CAD", 
+                    scratch: "1. Lease Negotiation: Secure commercial lease on Main Street ($2,500/mo).\n2. Licensing: Municipal business license & Alberta Corporate Registry.\n3. Inventory Setup: Initial stocking of tools & hardware ($50,000).\n4. Staffing: Hire 1 full-time local clerk to fulfill job creation metrics.\n5. Operations: Launch POS system, connect high-speed fiber internet, and open RBC commercial banking accounts."
+                },
+                { 
+                    name: "Rocky Mountain House Tourism", 
+                    dist: "210 km North of Calgary", 
+                    biz: "Outdoor Equipment & Adventure Outfitter", 
+                    cost: "$180,000 CAD", 
+                    scratch: "1. Asset Acquisition: Acquire existing storefront lease and touring gear assets.\n2. Permits: Provincial tourism permits and municipal zoning clearance.\n3. Fleet Setup: Secure pre-owned utility vehicles through regional dealer network.\n4. Banking & Accounting: Establish CIBC corporate accounts and retain local CPA.\n5. Marketing: Launch digital booking portal and partner with regional hotels."
+                }
             ];
 
             let html = '';
-            matches.forEach(m => {
+            matches.forEach((m, idx) => {
                 html += `
-                    <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl flex flex-col justify-between space-y-2">
+                    <div onclick='openModal(${JSON.stringify(m)})' class="bg-slate-950 border border-slate-800 p-4 rounded-xl flex flex-col justify-between space-y-2 cursor-pointer hover:border-indigo-500 transition">
                         <div>
                             <div class="flex justify-between items-start">
                                 <span class="font-bold text-slate-200 text-sm">${m.name}</span>
-                                <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full">Max Points</span>
+                                <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full">View A-Z Breakdown</span>
                             </div>
                             <p class="text-xs text-slate-400 mt-0.5">${m.dist}</p>
                             <p class="text-xs text-indigo-300 mt-2 font-medium"><i class="fa-solid fa-briefcase mr-1"></i>${m.biz}</p>
-                            <p class="text-[11px] text-slate-400 mt-2 bg-slate-900 p-2 rounded border border-slate-800">${m.details}</p>
                         </div>
                         <div class="flex justify-between items-center pt-2 border-t border-slate-900 text-xs">
                             <span class="text-slate-400">Total Capital:</span>
@@ -227,6 +249,34 @@
                 `;
             });
             container.innerHTML = html;
+        }
+
+        function openModal(biz) {
+            document.getElementById('modalTitle').innerText = biz.name + " (" + biz.biz + ")";
+            const formattedSteps = biz.scratch.split('\n').map(step => `<p class="bg-slate-950 p-3 rounded-lg border border-slate-800">${step}</p>`).join('');
+            document.getElementById('modalContent').innerHTML = formattedSteps;
+            document.getElementById('bizModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('bizModal').classList.add('hidden');
+        }
+
+        function downloadMandatePDF() {
+            const printContent = document.getElementById('mandateText').innerText;
+            const originalBody = document.body.innerHTML;
+            document.body.innerHTML = `
+                <div style="font-family: Arial; padding: 40px; color: #000;">
+                    <h2 style="border-bottom: 2px solid #333; padding-bottom: 10px;">AAIP Legal Representation Mandate Letter</h2>
+                    <p style="margin-top: 20px; font-size: 14px; line-height: 1.6;">${printContent}</p>
+                    <br><br><br>
+                    <p>Client Signature: _______________________ &nbsp;&nbsp;&nbsp;&nbsp; Date: _______________</p>
+                    <p>Representative Signature (Ahmad): _______________________ &nbsp;&nbsp;&nbsp;&nbsp; Date: _______________</p>
+                </div>
+            `;
+            window.print();
+            document.body.innerHTML = originalBody;
+            window.location.reload();
         }
     </script>
 </body>
